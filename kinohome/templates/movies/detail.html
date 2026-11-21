@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ movie.title }} — Кино Хоум</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Подключаем стили Video.js -->
+    <link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet" />
+</head>
+<body class="bg-dark text-white">
+    <div class="container my-5">
+        <a href="{% url 'home' %}" class="btn btn-outline-light mb-4">← На главную</a>
+
+        <div class="row">
+            <div class="col-md-4">
+                {% if movie.poster %}
+                    <img src="{{ movie.poster.url }}" class="img-fluid rounded shadow" alt="{{ movie.title }}">
+                {% elif movie.poster_url %}
+                    <img src="{{ movie.poster_url }}" class="img-fluid rounded shadow" alt="{{ movie.title }}">
+                {% endif %}
+            </div>
+            <div class="col-md-8">
+                <h1>{{ movie.title }}</h1>
+                <p class="text-muted">{{ movie.release_year }} | Рейтинг: ⭐ {{ movie.rating }}</p>
+                <p>{{ movie.description }}</p>
+            </div>
+        </div>
+
+        <!-- Профессиональный видеоплеер -->
+        <div class="row mt-5">
+            <div class="col-12">
+                <h3>Проигрыватель</h3>
+                <div class="ratio ratio-16x9 bg-black rounded overflow-hidden shadow">
+                    <video
+                        id="kino-player"
+                        class="video-js vjs-big-play-centered vjs-fluid"
+                        controls
+                        preload="auto"
+                        data-setup='{}'>
+
+                        {% if movie.video_file %}
+                            <source src="{{ movie.video_file.url }}" type="video/mp4" />
+                        {% endif %}
+                        Ваш браузер не поддерживает видео тег.
+                    </video>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Подключаем скрипт Video.js -->
+    <script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
+</body>
+</html>
